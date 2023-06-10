@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Utama No 3-7</title>
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+</head>
+<body>
+  <table class="table table-bordered" id="postTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>UserID</th>
+        <th>Title</th>
+        <th>Body</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody id="postTableBody">
+      <!-- Data akan ditambahkan oleh JavaScript -->
+    </tbody>
+  </table>
+
+  <p>**NOTE Untuk UserID Menghasilkan undifined karna sudah di hapus keynya</p>
+  
+  <section id="hash">
+    <div class="container">
+      <div class="row text-center">
+        <h3>Hasil dari hasing string 10062023gallanpriaifabula menggunakan sha256 (Tidak perlu lihat console log, karna sudah ditambahkan fungsi window.console pada javascript) adalah : </h3>
+        <p id="myLog"></p>
+      </div>
+    </div>
+  </section>
+  <a href="/" class="btn btn-danger">Kembali</a>
+  <a href="/tu37" class="btn btn-warning">Reload</a>
+  
+  
+  <script>
+    fetch('http://jsonplaceholder.typicode.com/posts')
+      .then(response => response.json())
+      .then(data => {
+        const modifiedData = data.map(post => {
+          delete post.userId; // Hapus key "userId"
+          return post;
+        });
+  
+        const tableBody = document.getElementById('postTableBody');
+        let tableHTML = '';
+        const maxData = 10;
+        for (let i = 0; i < maxData && i < modifiedData.length; i++) {
+          tableHTML += `
+            <tr>
+              <td>${modifiedData[i].id}</td>
+              <td>${modifiedData[i].userId}</td>
+              <td>${modifiedData[i].title}</td>
+              <td>${modifiedData[i].body}</td>
+              <td><button class="btn btn-danger" onclick="deleteData(${i})">Delete</button></td>
+            </tr>
+          `;
+        }
+        tableBody.innerHTML = tableHTML;
+      })
+      .catch(error => console.log(error));
+  
+    function deleteData(index) {
+      const tableBody = document.getElementById('postTableBody');
+      const rows = tableBody.getElementsByTagName('tr');
+      if (index >= 0 && index < rows.length) {
+        tableBody.deleteRow(index);
+      }
+    }
+
+    function sha256Hash(input) {
+      // Membuat objek kelas kriptografi SHA-256
+      const crypto = window.crypto || window.msCrypto;
+      const encoder = new TextEncoder();
+      const data = encoder.encode(input);
+      return crypto.subtle.digest('SHA-256', data)
+        .then(buffer => {
+          // Mengonversi buffer menjadi string heksadesimal
+          const hashArray = Array.from(new Uint8Array(buffer));
+          const hashedString = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+          return hashedString;
+        })
+        .catch(error => console.log(error));
+    }
+    window.console = {
+      log: function(str){
+        var node = document.createElement("div");
+        node.appendChild(document.createTextNode(str));
+        document.getElementById("myLog").appendChild(node);
+      }
+    }
+    const inputString = '10062023gallanpriaifabula';
+    sha256Hash(inputString)
+      .then(hashedString => {
+        console.log(hashedString);
+      })
+      .catch(error => console.log(error));
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Utama No 1 & 2</title>
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+</head>
+<body>
+  <section id="formlabel">
+    <div class="container">
+      <div class="row">
+        <div class="mb-3">
+          <h3 class="text-center">Label: <span id="labelValue">John Doe</span></h3>
+          <label class="form-label">Masukkan Kalimat :</label>
+          <input type="text" class="form-control" id="inputValue">
+          <br>
+          <button class="btn btn-primary" onclick="changeLabel()">Ubah</button>
+          <a href="/tu12" class="btn btn-warning">Reload</a>
+          <a href="/" class="btn btn-danger">Kembali</a>
+        </div>        
+      </div>
+    </div>
+  </section>
+  <script>
+    //Nomor 1.Struktur JSON array object yang berisi informasi:
+    var data = {
+      "nama": "John Doe",
+      "umur": 25,
+      "alamat": "Jl. Contoh No. 123",
+      "pekerjaan": "Software Engineer"
+    };
+
+    function changeLabel() {
+      var newValue = document.getElementById("inputValue").value;
+      document.getElementById("labelValue").innerHTML = newValue;
+    }
+  </script>
+</body>
+</html>

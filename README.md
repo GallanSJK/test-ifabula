@@ -29,3 +29,6 @@ npm install
 ```bash
 npm start
 ```
+
+Untuk mengakses API dapat mengakses link berikut menggunakan postman :
+localhost:8000/api/data
